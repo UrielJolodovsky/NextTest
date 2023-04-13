@@ -1,10 +1,15 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const newUser = await prisma.user.create({
-    data: {
-         name: "Uriel Jolodovsky",
-         email: "urieljolo@gmail.com",
-         password: "1234"
-    }
-}); 
+async function main() {
+// Here we write the queries
+await prisma.user.deleteMany()
+} 
+
+main()
+    .catch(e => {
+        console.error(e.message);
+})
+.finally(async () => {
+    await prisma.$disconnect();
+});
