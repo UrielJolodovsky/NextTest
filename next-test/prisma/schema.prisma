@@ -19,17 +19,16 @@ model User  {
     role Role @default(USER)
     writtenPosts Post[] @relation("WrittenPosts")
     favoritePosts Post[] @relation("FavoritePosts")
-    userPreference UserPreference?
-  
-  @@unique([age, name])
-  @@index([email])
+    userPreference UserPreference? @relation(fields: [userPreferenceId], references: [id])
+    userPreferenceId String? @unique
+    @@unique([age, name])
+    @@index([email])
 }
 model UserPreference {
     id String @id @default(uuid()) 
     emailUpdates Boolean
-    user User @relation(fields: [userId], references: [id])
-    userId String @unique
-}
+    user User?
+  }
 
 model Post {
     id String @id @default(uuid())

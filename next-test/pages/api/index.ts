@@ -1,5 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({log: ["query"]});
 
 async function main() {
 // Here we write the queries
@@ -8,8 +8,20 @@ const user = await prisma.user.create({
     data: {
         name: "Uriel",
         email: "urieljolo@gmail.com",
-        age: 17
-    }
+        age: 17,
+        userPreference: {
+            create: {
+                emailUpdates: true,
+        },
+    },
+},
+include: {
+    userPreference: true,
+},
+select: {
+    name: true,
+    userPreference: {select: {id: true}},
+}
 })
 console.log(user);
 } 
